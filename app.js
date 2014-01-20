@@ -24,6 +24,10 @@
   app.get('/img/:name', function (req, res) {
     res.sendfile('img/'+name);
   });
+
+  app.get('/style.css', function (req, res) {
+    res.sendfile('style.css');
+  });
   
   // READ volume level and mute state
   app.get('/controls/volume', function (req, res) {

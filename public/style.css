@@ -1,0 +1,63 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+body, html {
+  width: 100%;
+  min-height: 100%;
+  
+  overflow: hidden;
+  background: black;
+}
+
+#container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  overflow: hidden;
+  
+  width: 768px;
+  height: 1024px;
+
+  /* DEV */
+  
+  border: 1px #222 solid;
+  margin-top: 10px;
+  margin-left: 400px;
+  
+}
+
+#left {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#volume {
+  position: relative;
+  top: 0;
+}
+
+#freq {
+  position: relative;
+  top: 835px;
+}
+
+.filter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  z-index: 100;
+}
