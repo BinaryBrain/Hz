@@ -2,10 +2,13 @@
 (function () {
   'use strict';
 
+  var freqCur = 0
+
   var connect = require('express')
     , path = require('path')
     , app = connect()
     , wivol = require('./lib/osascript-vol-ctrl')
+    , baudio = require('baudio')
     , exec = require('child_process').exec
     ;
 
@@ -18,6 +21,10 @@
 
   // Non-RESTful controls (via GET)
 
+  app.get('/img/:name', function (req, res) {
+    res.sendfile('img/'+name);
+  });
+  
   // READ volume level and mute state
   app.get('/controls/volume', function (req, res) {
     function respond(err, cur, muted) {
@@ -62,14 +69,13 @@
     wivol.fade(respond, req.params.volume, 600);
   });
 
-	// Freq
-	app.get('/controls/freq/:freq', function (req, res) {
-    function respond(err, freq) {
-      res.send({
-        freq: freqCur
-      });
-    }
-    wivol.setFreq(freq);
+  // Freq
+  app.get('/controls/freq/:freq', function (req, res) {
+    setFreq(req.params.freq)
+    
+    res.send({
+      freq: freqCur
+    });
   });
 
   module.exports = app;
@@ -82,4 +88,27 @@
       });
     });
   }
+
+  // BAudio
+  var b = baudio()
+  
+  function playSound() {
+    b.push(function (t) {
+      var x = Math.sin(t*100*getFreq()/(2*Math.PI))
+      return x
+    })
+
+    b.play()
+  }
+
+  function setFreq(freq) {
+    freqCur = freq
+    console.log('freq = '+freqCur)
+  }
+  
+  function getFreq() {
+    return freqCur
+  }
+
+  //playSound()
 }());
