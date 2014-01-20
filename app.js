@@ -114,5 +114,5 @@
     return freqCur
   }
 
-  //playSound()
+  playSound()
 }());

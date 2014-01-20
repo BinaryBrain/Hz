@@ -112,8 +112,6 @@ window.jQuery(function () {
       }
     });
   }
-  getVolume();
-  setInterval(getVolume, 10 * 1000);
 
   /* My code, now! */
   var VOL_MIN_VALUE = 0;
@@ -217,25 +215,36 @@ window.jQuery(function () {
       isMouseDownPos = e.offsetY
       
       if(active === 'volume') {
-	console.log($('#volume').position().top, VOL_MAX_POS)
 	var newTop = $('#volume').position().top + diffY
 	
 	newTop = Math.max(newTop, VOL_MAX_POS)
 	newTop = Math.min(newTop, VOL_MIN_POS)
 	
 	$('#volume').css({ top: newTop + 'px' })
+
+	changeVolumeFromPos(newTop)
       }
       else if(active === 'freq') {
-	console.log($('#freq').position().top, FREQ_MAX_POS)
 	var newTop = $('#freq').position().top + diffY
 	
 	newTop = Math.max(newTop, FREQ_MAX_POS)
 	newTop = Math.min(newTop, FREQ_MIN_POS)
 	
 	$('#freq').css({ top: newTop + 'px' })
+	
+	changeFreqFromPos(newTop)
       }
       
       e.preventDefault()
     }
+  }
+  
+  function changeVolumeFromPos(px) {
+    var unit = volPixelsToUnit(px)
+    $.get('/controls/freq/'+unit)
+  }
+
+  function changeFreqFromPos(px) {
+    
   }
 });
