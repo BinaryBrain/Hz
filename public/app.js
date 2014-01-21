@@ -129,9 +129,9 @@ window.jQuery(function () {
     var valDiff = (valMax - valMin)
     var factor = valDiff/posDiff
     
-    px = px-posDiff
+    px = px-posMin
     px = px*factor
-    px = px+valDiff
+    px = px+valMin
     return px
   }
 
@@ -241,10 +241,11 @@ window.jQuery(function () {
   
   function changeVolumeFromPos(px) {
     var unit = volPixelsToUnit(px)
-    $.get('/controls/freq/'+unit)
+    $.get('/controls/volume/'+unit)
   }
 
   function changeFreqFromPos(px) {
-    
+    var unit = freqPixelsToUnit(px)
+    $.get('/controls/freq/'+unit)
   }
 });
