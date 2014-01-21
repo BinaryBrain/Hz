@@ -200,6 +200,7 @@ window.jQuery(function () {
 
   // move
   $('#left, #right').mousemove(function (e) {
+  	console.log(e)
     onMove(e)
   })
   

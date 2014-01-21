@@ -5,7 +5,7 @@
   var freqCur = 25
   var manualVolCur = 100
 
-  var modeManual = true
+  var modeManual = false
   var smoothMode = true
 
   var connect = require('express')
@@ -132,9 +132,9 @@
   ]
   
   function playSound() {
+  	console.log("playsound()")
     b.push(function (t) {
-
-      var p = Math.sin(t*100*getFreq()/(2*Math.PI))
+      var p = Math.sin(t*getFreq()*(2*Math.PI))
 
       if(modeManual) {
 	p = p*(getManualVolCur()/100)
