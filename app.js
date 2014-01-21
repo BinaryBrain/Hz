@@ -2,7 +2,11 @@
 (function () {
   'use strict';
 
-  var freqCur = 0
+  var freqCur = 25
+  var manualVolCur = 100
+
+  var modeManual = true
+  var smoothMode = true
 
   var connect = require('express')
     , path = require('path')
@@ -33,11 +37,17 @@
   app.get('/controls/volume', function (req, res) {
     function respond(err, cur, muted) {
       res.send({	 
-        volume: cur
+	volume: cur
       , muted: muted
       });
     }
-    wivol.get(respond);
+    
+    if(modeManual) {
+      res.send({ volume: getManualVolCur })
+    }
+    else {
+      wivol.get(respond);
+    }
   });
 
   // CREATE mute (retains volume)
@@ -66,11 +76,21 @@
   app.get('/controls/volume/:volume', function (req, res) {
     function respond(err, cur, muted) {
       res.send({
-        volume: cur
+	volume: cur
       , muted: muted
       });
     }
-    wivol.fade(respond, req.params.volume, 600);
+    
+    if(modeManual) {
+      setManualVolCur(req.params.volume)
+	
+      res.send({
+	volume: manualVolCur
+      });
+    }
+    else {
+      wivol.fade(respond, req.params.volume, 600);
+    }
   });
 
   // Freq
@@ -95,14 +115,54 @@
 
   // BAudio
   var b = baudio()
+  var previousPoints = [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]
   
   function playSound() {
     b.push(function (t) {
-      var x = Math.sin(t*100*getFreq()/(2*Math.PI))
-      return x
+
+      var p = Math.sin(t*100*getFreq()/(2*Math.PI))
+
+      if(modeManual) {
+	p = p*(getManualVolCur()/100)
+      }
+
+      if(smoothMode) {
+	previousPoints.shift()
+	previousPoints.push(p)
+
+	var x = previousPoints.reduce(function(a, b) { return a + b }) / previousPoints.length
+	return x
+      }
+      else {
+	return p
+      }
     })
 
     b.play()
+  }
+  
+  function setManualVolCur(volume) {
+    manualVolCur = volume
+    console.log('vol = '+manualVolCur)
+  }
+  
+  function getManualVolCur(freq) {
+    //console.log(manualVolCur)
+    return manualVolCur
   }
 
   function setFreq(freq) {

@@ -44,12 +44,12 @@ body, html {
 
 #volume {
   position: relative;
-  top: 0;
+  top: -840px;
 }
 
 #freq {
   position: relative;
-  top: 835px;
+  top: 347px;
 }
 
 .filter {
