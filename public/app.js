@@ -150,11 +150,13 @@ window.jQuery(function () {
   var leftEl = document.getElementById('left');
   leftEl.addEventListener("touchstart", handleStartLeft, false);
   leftEl.addEventListener("touchmove", handleMove, false);
-
+  leftEl.addEventListener("touchend", handleEnd, false);
+  
   var rightEl = document.getElementById('right');
   rightEl.addEventListener("touchstart", handleStartRight, false);
   rightEl.addEventListener("touchmove", handleMove, false);
-
+  rightEl.addEventListener("touchend", handleEnd, false);
+  
   // left down
   $('#left').mousedown(function (e) {
     isMouseDown = true
@@ -188,19 +190,31 @@ window.jQuery(function () {
   // left, right up
   $('#left, #right').mouseup(function (e) {
     isMouseDown = false
+    
+    if(active === 'freq') {
+      var top = $('#freq').position().top
+      changeFreqFromPos(top)
+    }
+    
     active = ''
     e.preventDefault()
   })
 
-  $('#left, #right').on('touchend', function (e) {
+  function handleEnd(e) {
     isMouseDown = false
+    
+    if(active === 'freq') {
+      var top = $('#freq').position().top
+      changeFreqFromPos(top)
+    }
+    
     active = ''
+    
     e.preventDefault()
-  })
+  }
 
   // move
   $('#left, #right').mousemove(function (e) {
-  	console.log(e)
     onMove(e)
   })
   
@@ -233,7 +247,7 @@ window.jQuery(function () {
 	
 	$('#freq').css({ top: newTop + 'px' })
 	
-	changeFreqFromPos(newTop)
+	//changeFreqFromPos(newTop)
       }
       
       e.preventDefault()

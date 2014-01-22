@@ -2,13 +2,14 @@
 (function () {
   'use strict';
 
-  var freqCur = 25
+  var freqCur = 25 // DEV
   var manualVolCur = 100
 
   var modeManual = false
   var smoothMode = true
 
   var connect = require('express')
+    , os = require('os')
     , path = require('path')
     , app = connect()
     , wivol = require('./lib/osascript-vol-ctrl')
@@ -22,6 +23,24 @@
   app.use(connect.urlencoded());
   app.use(connect.json());
   app.use(app.router);
+
+  function getIP() {
+    var ifaces = os.networkInterfaces();
+    var ip = '???'
+    
+    for (var dev in ifaces) {
+      var alias = 0;
+      ifaces[dev].forEach(function (details) {
+	if (details.family == 'IPv4') {
+	  if(details.address != '127.0.0.1')
+	    ip = details.address;
+	  ++alias;
+	}
+      });
+    }
+
+    return ip
+  }
 
   // Non-RESTful controls (via GET)
 
@@ -107,8 +126,10 @@
   if (require.main === module) {
     exec('hostname', function (err, stdout) {
       require('http').createServer(app).listen(process.argv[2] || 4040, function () {
-        console.log('Visit on your phone at ');
-        console.log('http://' + stdout.trim() + ':' + this.address().port + '/');
+        console.log('----------------------------');
+        console.log('Visit your iPad at:');
+        console.log('http://' + getIP() + ':' + this.address().port + '/');
+        console.log('----------------------------');
       });
     });
   }
@@ -132,7 +153,6 @@
   ]
   
   function playSound() {
-  	console.log("playsound()")
     b.push(function (t) {
       var p = Math.sin(t*getFreq()*(2*Math.PI))
 
@@ -152,7 +172,9 @@
       }
     })
 
-    b.play()
+    playSox(getFreq())
+
+    //b.play()
   }
   
   function setManualVolCur(volume) {
@@ -161,13 +183,13 @@
   }
   
   function getManualVolCur(freq) {
-    //console.log(manualVolCur)
     return manualVolCur
   }
 
   function setFreq(freq) {
     freqCur = freq
     console.log('freq = '+freqCur)
+    changeFreq(freq)
   }
   
   function getFreq() {
@@ -175,4 +197,26 @@
   }
 
   playSound()
+
+  var soxChild
+  function playSox(freq) {
+    console.log(freq)
+    soxChild = exec('play "|sox -n -p synth 10000 sine '+freq+'" stat',
+    function (error, stdout, stderr) {
+      if (error !== null) {
+	//console.log('exec error: ' + error);
+      }
+    });
+  }
+
+  function changeFreq(freq) {
+    soxChild.kill()
+    console.log(soxChild.pid)
+    exec('killall play', function (error, stdout, stderr) {
+      if (error !== null) {
+	//console.log('exec error: ' + error);
+      }
+      setTimeout(function () { playSox(freq) }, 500)
+    })
+  }
 }());
