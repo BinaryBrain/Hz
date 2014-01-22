@@ -26,7 +26,7 @@ Installation & Usage
 
 4. You can also add the Web App to your home screen to get it fullscreen
 
-<img src="https://raw.github.com/BinaryBrain/Hz/master/doc-img/add-home.png" alt="screenshot" style="width: 50%;">
+<img src="https://raw.github.com/BinaryBrain/Hz/master/doc-img/add-home.png" alt="screenshot"">
 
 
 API
