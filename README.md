@@ -1,7 +1,7 @@
 Hz
 ===
 
-Hz is an app that generate a sine wave and allow you to remotly control its volume and its frequency through HTTP requests.  
+Hz is an app that generates a sine wave and allow you to remotly control its volume and its frequency through HTTP requests.  
 The remote control is a Web App made for iPad.
 
 <img src="https://raw.github.com/BinaryBrain/Hz/master/doc-img/placeit.png" alt="screenshot">
