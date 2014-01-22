@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  var freqCur = 25 // DEV
+  var freqCur = 25
   var manualVolCur = 100
 
   var modeManual = false
