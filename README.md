@@ -6,7 +6,7 @@ The remote control is a Web App made for iPad.
 
 <img src="https://raw.github.com/BinaryBrain/Hz/master/doc-img/placeit.png" alt="screenshot">
 
-This app is part of an art project for [écal](http://ecal.ch). The purpose of the project was to make a water flow looks freezed in the time.
+This app is part of an art project for [écal](http://ecal.ch). The purpose of the project was to make a water flow looks freezed in the time.  
 You can watch the concept of the project in this video: [Cool Sound and Water Experiment!](http://youtu.be/mODqQvlrgIQ)
 
 Dependencies
