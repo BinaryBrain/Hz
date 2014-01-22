@@ -1,8 +1,10 @@
 Hz
 ===
 
-Hz is an app that generate a sine wave and allow you to remotly control its volume and its frequency through HTTP requests.
-Hz remote control is a Web App made for iPad.
+Hz is an app that generate a sine wave and allow you to remotly control its volume and its frequency through HTTP requests.  
+The remote control is a Web App made for iPad.
+
+<img src="https://raw.github.com/BinaryBrain/Hz/master/doc-img/placeit.png" alt="screenshot">
 
 Installation & Usage
 ===
@@ -38,3 +40,5 @@ Change the frequency
 ```
 http://<your-computer-local-ip>:4040/controls/freq/<frequency>
 ```
+
+<img src="https://raw.github.com/BinaryBrain/Hz/master/doc-img/placeit2.png" alt="screenshot">
