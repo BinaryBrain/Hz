@@ -29,18 +29,24 @@ Installation & Usage
 <img src="https://raw.github.com/BinaryBrain/Hz/master/doc-img/add-home.png" alt="screenshot"">
 
 
+Notes
+===
+
+The volume control only works on Mac OS X for the moment.
+
+
 API
 ===
 
 If you want to develop another web app, here is HTTP requests you can send to the server:
 
-Change the volume
+Change the volume:
 
 ```
 http://<your-computer-local-ip>:4040/controls/volume/<volume>
 ```
 
-Change the frequency
+Change the frequency:
 
 ```
 http://<your-computer-local-ip>:4040/controls/freq/<frequency>
